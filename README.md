@@ -1,40 +1,62 @@
-# @skfw/spindraw
+# @skfw-js/spindraw
 
+- typescript
 ```ts
-import SpinDraw from "./index.js"
+import SpinDraw from '@skfw-js/spindraw';
 
 function main(...args: Array<string>) {
 
   const roles = {
-    'Gift A': 0.2,
+    'Gift A': 0.1,
     'Gift B': 0.2,
-    'Gift C': 0.6,
-    'Gift D': 3.0,
-    'Gift E': 6.0,
-    'Gift F': 90.0,
+    'Gift C': 0.3,
+    'Gift D': 0.4,
+    'Gift E': 0.5,
   }
   
-  const s = new SpinDraw(new Map(Object.entries(roles)), -1)
-
-  let k: number
-
-  k = 0
+  const s = new SpinDraw(new Map(Object.entries(roles)), 0.2)
   
-  for (let _ of new Array(1000)) {
+  for (let _ of new Array(10)) {
   
     let draw = s.Spin()
   
-    if (["Gift A", "Gift B"].includes(draw?.Gift ?? "")) {
+    if (["Gift A", "Gift B"].includes(draw?.Gift)) console.log(draw, s.Roles)
 
-      console.log(draw, s.Roles)
-      k += 1
-    }
+    //console.log(draw, s.Roles)
 
     //s.Roles = new Map(Object.entries(roles))
   }
+}
 
-  //console.log(s.Views)
-  console.log(k)
+main()
+```
+
+- javascript
+```js
+import SpinDraw from '@skfw-js/spindraw/out/index.js';
+
+function main(...args) {
+
+  const roles = {
+    'Gift A': 0.1,
+    'Gift B': 0.2,
+    'Gift C': 0.3,
+    'Gift D': 0.4,
+    'Gift E': 0.5,
+  }
+  
+  const s = new SpinDraw(new Map(Object.entries(roles)), 0.2)
+  
+  for (let _ of new Array(10)) {
+  
+    let draw = s.Spin()
+  
+    if (["Gift A", "Gift B"].includes(draw?.Gift)) console.log(draw, s.Roles)
+
+    //console.log(draw, s.Roles)
+
+    //s.Roles = new Map(Object.entries(roles))
+  }
 }
 
 main()

@@ -16,9 +16,7 @@ export function Sum(...args: Array<float>): float {
 
 export function RanRand(min: float, max: float): float {
 
-  min = min * 100
-  max = max * 100
-  return Math.round((Math.random() * (max - min)) + min) / 100
+  return (Math.random() * (max - min)) + min
 }
 
 export function ShuffleArray<T>(data: Array<T>): Array<T> {
@@ -31,11 +29,11 @@ export function ShuffleArray<T>(data: Array<T>): Array<T> {
   i = 0
   n = data.length
   k = n - 1
+  n = Math.ceil(n / 2)
 
   for (i = 0; i < n; i++) {
 
     j = Math.round(RanRand(0, k))
-
     
     if (i !== j) {
 
@@ -78,11 +76,16 @@ export default class SpinDraw {
 
   constructor(roles: Map<string, float>, z: float = Number.MAX_SAFE_INTEGER) {
 
-    // initialize
+    let values: Array<float> = new Array;
+
+    // init
     this.#roles = roles;
     this.#named = Array.from(this.#roles.keys())
-    this.#ranges = this.RangeValues(...Array.from(this.#roles.values())) // pre-caches
-    this.#k = Sum(...this.#ranges)
+
+    // update
+    values = Array.from(this.#roles.values())
+    this.#ranges = this.RangeValues(...values) // pre-caches
+    this.#k = Sum(...values)
     
     // once
     this.#nodups = this.IndexesIntoNamed(this.IndexesOf(z))
@@ -121,7 +124,8 @@ export default class SpinDraw {
     for (i = 0; i < n; i++) {
   
       a = v // before
-      b = a + this.#ranges[i] // after
+      //b = a + this.#ranges[i] // after
+      b = this.#ranges[i] // after
       v = b // merging
   
       if (a <= q && q <= b) {
@@ -148,7 +152,8 @@ export default class SpinDraw {
     for (i = 0; i < n; i++) {
   
       p = v
-      v = p + this.#ranges[i]
+      //v = p + this.#ranges[i]
+      v = this.#ranges[i]
   
       // no sorted, check all ranges
       if (p <= q) { // 0.0 <= q, 0.1 <= q, 0.2 <= q, ...
@@ -207,9 +212,13 @@ export default class SpinDraw {
 
   Update(): void {
 
+    let values: Array<float> = new Array
+
     this.#named = Array.from(this.#roles.keys())
-    this.#ranges = Array.from(this.#roles.values())
-    this.#k = Sum(...this.#ranges)
+
+    values = Array.from(this.#roles.values())
+    this.#ranges = this.RangeValues(...values) // pre-caches
+    this.#k = Sum(...values)
   }
 
   RemoveAndUpdate(index: int): void {
@@ -228,31 +237,33 @@ export default class SpinDraw {
     this.Update()
   }
 
-  Spin(): Draw | undefined {
+  Spin(): Draw | null {
 
-    if (!this.#k) return undefined
-
-    this.Shuffle()
-  
+    let named: string
     let i: int
     let v: float
-  
-    v = RanRand(0, this.#k)
-    i = this.IndexOf(v)
-  
-    const named = this.#named[i]
 
-    if (this.#nodups.includes(named)) {
+    if (0 < this.#k) {
+
+      this.Shuffle()
+    
+      v = RanRand(0, this.#k)
+      i = this.IndexOf(v)
+    
+      named = this.#named[i]
   
-      this.RemoveAndUpdate(i)
+      if (this.#nodups.includes(named)) {
+    
+        this.RemoveAndUpdate(i)
+      }
+    
+      return new Draw(named, v, i)
     }
-  
-    return new Draw(named, v, i)
+
+    return null
   }
 
-  SpinSlow(h: int = 1000): Draw | undefined {
-
-    if (!this.#k) return undefined
+  SpinSlow(h: int = 1000): Draw | null {
 
     const temp: Array<int> = new Array
 
@@ -263,36 +274,41 @@ export default class SpinDraw {
     let n: float
     let v: float
 
-    n = 0
-
-    for (entry of this.Views.entries()) {
-
-      [named, range] = [entry[0], entry[1]]
-
-      n = Math.floor((range / 100) * h)
-
-      for (i = 0; i < n; i++) {
-
-        temp.push(this.#named.indexOf(named))
+    if (0 < this.#k) {
+  
+      n = 0
+  
+      for (entry of this.Views.entries()) {
+  
+        [named, range] = [entry[0], entry[1]]
+  
+        n = Math.round((range / 100) * h)
+  
+        for (i = 0; i < n; i++) {
+  
+          temp.push(this.#named.indexOf(named))
+        }
       }
+  
+      ShuffleArray(temp)
+  
+      h = temp.length - 1
+      v = RanRand(0, h)
+      i = Math.round(v)
+      v = (i / h) * this.#k
+      i = temp[i]
+
+      named = this.#named[i]
+  
+      if (this.#nodups.includes(named)) {
+  
+        this.RemoveAndUpdate(i)
+      }
+  
+      return new Draw(named, v, i)
     }
 
-    ShuffleArray(temp)
-
-    h = temp.length - 1
-    v = RanRand(0, h)
-    i = Math.floor(v)
-
-    named = this.#named[temp[i]]
-    v = (i / h) * this.#k
-    i = this.#named.indexOf(named)
-
-    if (this.#nodups.includes(named)) {
-
-      this.RemoveAndUpdate(i)
-    }
-
-    return new Draw(named, v, i)
+    return null
   }
 
   get Roles(): Map<string, float> {
