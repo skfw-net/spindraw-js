@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    "module": "esnext",
+    "target": "esnext",
+    "noEmit": false,
+    "composite": true,
+    "emitDeclarationOnly": false,
+    "moduleResolution": "bundler",
+    "moduleDetection": "force",
+    "strict": true,
+    "downlevelIteration": true,
+    "skipLibCheck": true,
+    "jsx": "preserve",
+    "allowSyntheticDefaultImports": true,
+    "allowUnreachableCode": false,
+    "allowImportingTsExtensions": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noImplicitAny": true,
+    "typeRoots": [ "./types" ],
+    "allowJs": true,
+    "outDir": "./out",
+    "sourceMap": true,
+  },
+  "include": [
+    "**/*",
+    "*"
+  ],
+  "exclude": [
+    "test.ts"
+  ]
+}
