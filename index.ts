@@ -48,18 +48,15 @@ export class Draw {
   
   #named: string
   #value: float
-  #index: int
 
-  constructor(named: string, value: float, index: int) {
+  constructor(named: string, value: float) {
 
     this.#named = named
     this.#value = value
-    this.#index = index
   }
 
   get Gift(): string { return this.#named }
   get Dist(): float { return this.#value }
-  get Index(): int { return this.#index }
 }
 
 export default class SpinDraw {
@@ -257,7 +254,7 @@ export default class SpinDraw {
         this.RemoveAndUpdate(i)
       }
     
-      return new Draw(named, v, i)
+      return new Draw(named, v)
     }
 
     return null
@@ -305,7 +302,7 @@ export default class SpinDraw {
         this.RemoveAndUpdate(i)
       }
   
-      return new Draw(named, v, i)
+      return new Draw(named, v)
     }
 
     return null
