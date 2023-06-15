@@ -1,8 +1,8 @@
-# @skfw-js/spindraw
+# @skfx/spindraw
 
 - typescript
 ```ts
-import SpinDraw from '@skfw-js/spindraw';
+import SpinDraw from '@skfx/spindraw';
 
 function main(...args: Array<string>) {
 
@@ -33,7 +33,7 @@ main()
 
 - javascript
 ```js
-import SpinDraw from '@skfw-js/spindraw/out/index.js';
+import SpinDraw from '@skfx/spindraw/out/index.js';
 
 function main(...args) {
 
