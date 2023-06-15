@@ -1,6 +1,6 @@
 {
   "name": "@skfx/spindraw",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "module": "index.ts",
   "type": "module",
   "description": "```ts import SpinDraw from \"@skfx/spindraw\"",
