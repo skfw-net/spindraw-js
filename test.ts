@@ -13,27 +13,18 @@ function main(...args: Array<string>) {
   
   const s = new SpinDraw(new Map(Object.entries(roles)), -1)
 
-  let k: number
-
-  k = 0
+  let k: number = 0
   
-  for (let _ of new Array(1000)) {
+  for (let _ of new Array(1e3)) {
   
     let draw = s.SpinSlow()
   
-    if (["Gift A"].includes(draw?.Gift ?? "")) {
+    if (["Gift D"].includes(draw?.Gift ?? "")) {
 
-      console.log(draw, s.Roles)
+      console.log(draw)
+      console.log(s.Roles)
       k += 1
     }
-
-    // if (typeof draw?.Gift === "undefined" || draw === null) {
-
-    //   console.log(draw)
-    //   k += 1
-    // }
-
-    //s.Roles = new Map(Object.entries(roles))
   }
 
   console.log(s.Views)

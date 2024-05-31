@@ -9,7 +9,5 @@ clean:
 types:
 	npx tsc --emitDeclarationOnly --declaration
 
-postinstall: build
-
-publish:
+pub:
 	npm publish --access=public --scoped=skfx

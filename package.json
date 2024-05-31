@@ -1,38 +1,33 @@
 {
   "name": "@skfx/spindraw",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "module": "index.ts",
   "type": "module",
   "description": "```ts import SpinDraw from \"@skfx/spindraw\"",
   "main": "index.ts",
   "private": false,
   "devDependencies": {
-    "bun-types": "^0.5.0"
+    "bun-types": "^0.5.0",
+    "typescript": "^5.4.5",
+    "esbuild": "^0.18.2"
   },
   "scripts": {
     "build": "npx esbuild index.ts --bundle --minify --platform=neutral --target=esnext --sourcemap=external --outdir=out",
-    "build:types": "npx tsc --emitDeclarationOnly --declaration",
-    "postinstall": "npm run build"
+    "build:types": "npx tsc --emitDeclarationOnly --declaration"
   },
   "dependencies": {
-    "esbuild": "^0.18.2",
-    "tsc": "^2.0.4",
-    "typescript": "^5.1.3"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/skfw-net/spindraw-js.git"
   },
   "keywords": [
-    "skfw",
-    "library",
-    "framework",
+    "skfx",
     "spindraw",
     "random",
-    "rand",
     "spin"
   ],
-  "author": " <skulluglify@outlook.com/>",
+  "author": " <skfwdotnet@proton.me/>",
   "license": "Apache License 2.0",
   "bugs": {
     "url": "https://github.com/skfw-net/spindraw-js/issues"
